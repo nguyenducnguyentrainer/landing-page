@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cố Vấn Bảo Hiểm | FIDT</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=Be+Vietnam+Pro:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=Be+Vietnam+Pro:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -26,7 +28,7 @@
   html { scroll-behavior: smooth; }
 
   body {
-    font-family: 'Be Vietnam Pro', sans-serif;
+    font-family: 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif;
     background: var(--cream);
     color: var(--ink);
     font-size: 16px;
@@ -91,7 +93,7 @@
     background: var(--gold);
   }
   .hero-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
     font-size: clamp(2.8rem, 4.5vw, 4.2rem);
     font-weight: 500; line-height: 1.12;
     color: var(--green-deep);
@@ -733,36 +735,22 @@
 
 <script>
   // Scroll reveal
-  const revealEls = document.querySelectorAll('.why-card, .service-item, .timeline-item, .contact-form');
-
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.05 });
-
-    revealEls.forEach(el => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(20px)';
-      el.style.transition = 'opacity .5s ease, transform .5s ease';
-      observer.observe(el);
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        observer.unobserve(entry.target);
+      }
     });
+  }, { threshold: 0.12 });
 
-    // Fallback: nếu sau 1.5s vẫn chưa hiện thì force show tất cả
-    setTimeout(() => {
-      revealEls.forEach(el => {
-        el.style.opacity = '1';
-        el.style.transform = 'translateY(0)';
-      });
-    }, 1500);
-  }
-  // Nếu không hỗ trợ IntersectionObserver thì hiện ngay
-
+  document.querySelectorAll('.why-card, .service-item, .timeline-item, .contact-form').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity .5s ease, transform .5s ease';
+    observer.observe(el);
+  });
 
   // Form submit feedback
   document.querySelector('.form-submit').addEventListener('click', function(e) {
